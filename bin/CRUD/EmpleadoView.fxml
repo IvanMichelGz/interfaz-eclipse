@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CRUD.EmpleadoController"
+            prefWidth="900" prefHeight="600">
+
+    <top>
+        <Label text="Gestión de Empleados" style="-fx-font-size: 20px; -fx-padding: 10;" />
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <TableView fx:id="tablaEmpleados" onMouseClicked="#seleccionarEmpleado">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                    <TableColumn fx:id="colPuesto" text="Puesto" prefWidth="150"/>
+                    <TableColumn fx:id="colSalario" text="Salario" prefWidth="100"/>
+                    <TableColumn fx:id="colFecha" text="Fecha Ingreso" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <TextField fx:id="txtNombre" promptText="Nombre"/>
+                <TextField fx:id="txtPuesto" promptText="Puesto"/>
+                <TextField fx:id="txtSalario" promptText="Salario"/>
+                <DatePicker fx:id="dpFecha"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button text="Guardar" onAction="#guardarEmpleado"/>
+                <Button text="Actualizar" onAction="#actualizarEmpleado"/>
+                <Button text="Eliminar" onAction="#eliminarEmpleado"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

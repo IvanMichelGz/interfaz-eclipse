@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CRUD.ClienteController"
+            prefWidth="900" prefHeight="600">
+
+    <top>
+        <Label text="Gestión de Clientes" style="-fx-font-size: 20px; -fx-padding: 10;" />
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <TableView fx:id="tablaClientes" onMouseClicked="#seleccionarCliente">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                    <TableColumn fx:id="colApellido" text="Apellido" prefWidth="150"/>
+                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="120"/>
+                    <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <TextField fx:id="txtNombre" promptText="Nombre"/>
+                <TextField fx:id="txtApellido" promptText="Apellido"/>
+                <TextField fx:id="txtTelefono" promptText="Teléfono"/>
+                <TextField fx:id="txtEmail" promptText="Email"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button text="Guardar" onAction="#guardarCliente"/>
+                <Button text="Actualizar" onAction="#actualizarCliente"/>
+                <Button text="Eliminar" onAction="#eliminarCliente"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>

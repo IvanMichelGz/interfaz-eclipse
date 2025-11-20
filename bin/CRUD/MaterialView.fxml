@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="CRUD.MaterialController"
+            prefWidth="900" prefHeight="600">
+
+    <top>
+        <Label text="Gestión de Materiales" style="-fx-font-size: 20px; -fx-padding: 10;" />
+    </top>
+
+    <center>
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <TableView fx:id="tablaMateriales" onMouseClicked="#seleccionarMaterial">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                    <TableColumn fx:id="colMarca" text="Marca" prefWidth="150"/>
+                    <TableColumn fx:id="colArea" text="Área" prefWidth="100"/>
+                    <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="100"/>
+                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
+                    <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100"/>
+                    <TableColumn fx:id="colIngreso" text="Ingreso" prefWidth="120"/>
+                    <TableColumn fx:id="colCaducidad" text="Caducidad" prefWidth="120"/>
+                    <TableColumn fx:id="colUbicacion" text="Ubicación" prefWidth="150"/>
+                </columns>
+            </TableView>
+
+            <HBox spacing="10">
+                <TextField fx:id="txtNombre" promptText="Nombre"/>
+                <TextField fx:id="txtMarca" promptText="Marca"/>
+                <TextField fx:id="txtArea" promptText="Área"/>
+                <TextField fx:id="txtUnidad" promptText="Unidad"/>
+                <TextField fx:id="txtCantidad" promptText="Cantidad"/>
+                <TextField fx:id="txtPrecio" promptText="Precio"/>
+                <DatePicker fx:id="dpIngreso"/>
+                <DatePicker fx:id="dpCaducidad"/>
+                <TextField fx:id="txtUbicacion" promptText="Ubicación"/>
+            </HBox>
+
+            <HBox spacing="10">
+                <Button text="Guardar" onAction="#insertar"/>
+                <Button text="Actualizar" onAction="#actualizar"/>
+                <Button text="Eliminar" onAction="#eliminar"/>
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
