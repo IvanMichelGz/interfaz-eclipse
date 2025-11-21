@@ -7,45 +7,55 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="CRUD.MaterialController"
+            stylesheets="@estilo.css"
             prefWidth="900" prefHeight="600">
 
+    <!-- Encabezado -->
     <top>
-        <Label text="Gestión de Materiales" style="-fx-font-size: 20px; -fx-padding: 10;" />
+        <Label text="Gestión de Materiales"
+               styleClass="header-title"
+               BorderPane.alignment="CENTER"/>
     </top>
 
+    <!-- Contenido central -->
     <center>
-        <VBox spacing="10" style="-fx-padding: 10;">
-            <TableView fx:id="tablaMateriales" onMouseClicked="#seleccionarMaterial">
+        <VBox spacing="15" style="-fx-padding: 20;">
+
+            <!-- Tabla de materiales -->
+            <TableView fx:id="tablaMateriales" onMouseClicked="#seleccionarMaterial"
+                       prefHeight="400" prefWidth="800">
                 <columns>
-                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
-                    <TableColumn fx:id="colMarca" text="Marca" prefWidth="150"/>
-                    <TableColumn fx:id="colArea" text="Área" prefWidth="100"/>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="140"/>
+                    <TableColumn fx:id="colMarca" text="Marca" prefWidth="120"/>
+                    <TableColumn fx:id="colArea" text="Área" prefWidth="120"/>
                     <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="100"/>
-                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
+                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
                     <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100"/>
-                    <TableColumn fx:id="colIngreso" text="Ingreso" prefWidth="120"/>
-                    <TableColumn fx:id="colCaducidad" text="Caducidad" prefWidth="120"/>
-                    <TableColumn fx:id="colUbicacion" text="Ubicación" prefWidth="150"/>
+                    <TableColumn fx:id="colFechaIngreso" text="Ingreso" prefWidth="120"/>
+                    <TableColumn fx:id="colFechaCaducidad" text="Caducidad" prefWidth="120"/>
+                    <TableColumn fx:id="colUbicacion" text="Ubicación" prefWidth="120"/>
                 </columns>
             </TableView>
 
-            <HBox spacing="10">
-                <TextField fx:id="txtNombre" promptText="Nombre"/>
-                <TextField fx:id="txtMarca" promptText="Marca"/>
-                <TextField fx:id="txtArea" promptText="Área"/>
-                <TextField fx:id="txtUnidad" promptText="Unidad"/>
-                <TextField fx:id="txtCantidad" promptText="Cantidad"/>
-                <TextField fx:id="txtPrecio" promptText="Precio"/>
-                <DatePicker fx:id="dpIngreso"/>
-                <DatePicker fx:id="dpCaducidad"/>
-                <TextField fx:id="txtUbicacion" promptText="Ubicación"/>
+            <!-- Campos de entrada -->
+            <HBox spacing="12" alignment="CENTER">
+                <TextField fx:id="txtNombre" promptText="Nombre" prefWidth="140"/>
+                <TextField fx:id="txtMarca" promptText="Marca" prefWidth="120"/>
+                <TextField fx:id="txtArea" promptText="Área" prefWidth="120"/>
+                <TextField fx:id="txtUnidad" promptText="Unidad" prefWidth="100"/>
+                <TextField fx:id="txtCantidad" promptText="Cantidad" prefWidth="100"/>
+                <TextField fx:id="txtPrecio" promptText="Precio" prefWidth="100"/>
+                <TextField fx:id="txtUbicacion" promptText="Ubicación" prefWidth="120"/>
+                <DatePicker fx:id="dpFechaIngreso" promptText="Fecha ingreso"/>
+                <DatePicker fx:id="dpFechaCaducidad" promptText="Fecha caducidad"/>
             </HBox>
 
-            <HBox spacing="10">
-                <Button text="Guardar" onAction="#insertar"/>
-                <Button text="Actualizar" onAction="#actualizar"/>
-                <Button text="Eliminar" onAction="#eliminar"/>
+            <!-- Botones de acción -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Guardar" onAction="#guardarMaterial" prefWidth="120"/>
+                <Button text="Actualizar" onAction="#actualizarMaterial" prefWidth="120"/>
+                <Button text="Eliminar" onAction="#eliminarMaterial" prefWidth="120"/>
             </HBox>
         </VBox>
     </center>

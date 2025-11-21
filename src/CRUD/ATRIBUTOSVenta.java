@@ -8,8 +8,9 @@ public class ATRIBUTOSVenta {
     private final ObjectProperty<Date> fecha = new SimpleObjectProperty<>();
     private final IntegerProperty id_cliente = new SimpleIntegerProperty();
     private final IntegerProperty id_empleado = new SimpleIntegerProperty();
-    private final FloatProperty total = new SimpleFloatProperty();
+    private final DoubleProperty total = new SimpleDoubleProperty();
 
+    // Getters y setters
     public int getId_venta() { return id_venta.get(); }
     public void setId_venta(int value) { id_venta.set(value); }
     public IntegerProperty id_ventaProperty() { return id_venta; }
@@ -26,7 +27,7 @@ public class ATRIBUTOSVenta {
     public void setId_empleado(int value) { id_empleado.set(value); }
     public IntegerProperty id_empleadoProperty() { return id_empleado; }
 
-    public float getTotal() { return total.get(); }
-    public void setTotal(float value) { total.set(value); }
-    public FloatProperty totalProperty() { return total; }
+    public double getTotal() { return total.get(); }
+    public void setTotal(double value) { total.set(value); }
+    public DoubleProperty totalProperty() { return total; }
 }

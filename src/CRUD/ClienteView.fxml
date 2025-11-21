@@ -7,35 +7,45 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="CRUD.ClienteController"
+            stylesheets="@estilo.css"
             prefWidth="900" prefHeight="600">
 
+    <!-- Encabezado -->
     <top>
-        <Label text="Gestión de Clientes" style="-fx-font-size: 20px; -fx-padding: 10;" />
+        <Label text="Gestión de Clientes"
+               styleClass="header-title"
+               BorderPane.alignment="CENTER"/>
     </top>
 
+    <!-- Contenido central -->
     <center>
-        <VBox spacing="10" style="-fx-padding: 10;">
-            <TableView fx:id="tablaClientes" onMouseClicked="#seleccionarCliente">
+        <VBox spacing="15" style="-fx-padding: 20;">
+            
+            <!-- Tabla de clientes -->
+            <TableView fx:id="tablaClientes" onMouseClicked="#seleccionarCliente"
+                       prefHeight="400" prefWidth="800">
                 <columns>
-                    <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
-                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
-                    <TableColumn fx:id="colApellido" text="Apellido" prefWidth="150"/>
-                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="120"/>
-                    <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="160"/>
+                    <TableColumn fx:id="colApellido" text="Apellido" prefWidth="160"/>
+                    <TableColumn fx:id="colTelefono" text="Teléfono" prefWidth="140"/>
+                    <TableColumn fx:id="colEmail" text="Email" prefWidth="220"/>
                 </columns>
             </TableView>
 
-            <HBox spacing="10">
-                <TextField fx:id="txtNombre" promptText="Nombre"/>
-                <TextField fx:id="txtApellido" promptText="Apellido"/>
-                <TextField fx:id="txtTelefono" promptText="Teléfono"/>
-                <TextField fx:id="txtEmail" promptText="Email"/>
+            <!-- Campos de entrada -->
+            <HBox spacing="12" alignment="CENTER">
+                <TextField fx:id="txtNombre" promptText="Nombre" prefWidth="160"/>
+                <TextField fx:id="txtApellido" promptText="Apellido" prefWidth="160"/>
+                <TextField fx:id="txtTelefono" promptText="Teléfono" prefWidth="140"/>
+                <TextField fx:id="txtEmail" promptText="Email" prefWidth="220"/>
             </HBox>
 
-            <HBox spacing="10">
-                <Button text="Guardar" onAction="#guardarCliente"/>
-                <Button text="Actualizar" onAction="#actualizarCliente"/>
-                <Button text="Eliminar" onAction="#eliminarCliente"/>
+            <!-- Botones de acción -->
+            <HBox spacing="15" alignment="CENTER">
+                <Button text="Guardar" onAction="#guardarCliente" prefWidth="120"/>
+                <Button text="Actualizar" onAction="#actualizarCliente" prefWidth="120"/>
+                <Button text="Eliminar" onAction="#eliminarCliente" prefWidth="120"/>
             </HBox>
         </VBox>
     </center>

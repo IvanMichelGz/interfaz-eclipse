@@ -1,107 +1,126 @@
 package CRUD;
 
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.input.MouseEvent;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class VentasController {
+	@FXML private TextField txtCliente;
+	@FXML private TextField txtEmpleado;
+	@FXML private TextField txtTotal;
+	@FXML private DatePicker dpFecha;
 
-    @FXML private TableView<ItemVenta> tablaCarrito;
-    @FXML private TableColumn<ItemVenta, Integer> colId;
-    @FXML private TableColumn<ItemVenta, String> colNombre;
-    @FXML private TableColumn<ItemVenta, Integer> colCantidad;
-    @FXML private TableColumn<ItemVenta, Double> colPrecio;
-    @FXML private TableColumn<ItemVenta, Double> colSubtotal;
+    @FXML private TableView<ATRIBUTOSVenta> tablaVentas;
+    @FXML private TableColumn<ATRIBUTOSVenta, Integer> colIdVenta;
+    @FXML private TableColumn<ATRIBUTOSVenta, java.sql.Date> colFecha;
+    @FXML private TableColumn<ATRIBUTOSVenta, Integer> colCliente;
+    @FXML private TableColumn<ATRIBUTOSVenta, Integer> colEmpleado;
+    @FXML private TableColumn<ATRIBUTOSVenta, Double> colTotal;
 
-    @FXML private TextField txtProducto;
-    @FXML private TextField txtCantidad;
-    @FXML private TextField txtPrecio;
-    @FXML private Label labelTotal;
+    @FXML private TableView<ATRIBUTOSDetalleVenta> tablaDetalle;
+    @FXML private TableColumn<ATRIBUTOSDetalleVenta, Integer> colIdDetalle;
+    @FXML private TableColumn<ATRIBUTOSDetalleVenta, Integer> colIdMaterial;
+    @FXML private TableColumn<ATRIBUTOSDetalleVenta, Integer> colCantidad;
+    @FXML private TableColumn<ATRIBUTOSDetalleVenta, Float> colPrecioUnitario;
+    @FXML private TableColumn<ATRIBUTOSDetalleVenta, Float> colSubtotal;
 
-    private ObservableList<ItemVenta> carrito = FXCollections.observableArrayList();
-    private int contadorId = 1;
+    @FXML private TextField txtIdMaterial, txtCantidad, txtPrecioUnitario;
+
+    private final METODOSVenta metodos = new METODOSVenta();
+    private ATRIBUTOSVenta ventaSeleccionada;
+    private ATRIBUTOSDetalleVenta detalleSeleccionado;
 
     @FXML
-    private void initialize() {
-        colId.setCellValueFactory(data -> data.getValue().idProperty().asObject());
-        colNombre.setCellValueFactory(data -> data.getValue().nombreProperty());
-        colCantidad.setCellValueFactory(data -> data.getValue().cantidadProperty().asObject());
-        colPrecio.setCellValueFactory(data -> data.getValue().precioProperty().asObject());
-        colSubtotal.setCellValueFactory(data -> data.getValue().subtotalProperty().asObject());
+    public void initialize() {
+        // Configurar columnas cabecera
+        colIdVenta.setCellValueFactory(cell -> cell.getValue().id_ventaProperty().asObject());
+        colFecha.setCellValueFactory(cell -> cell.getValue().fechaProperty());
+        colCliente.setCellValueFactory(cell -> cell.getValue().id_clienteProperty().asObject());
+        colEmpleado.setCellValueFactory(cell -> cell.getValue().id_empleadoProperty().asObject());
+        colTotal.setCellValueFactory(cell -> cell.getValue().totalProperty().asObject());
 
-        tablaCarrito.setItems(carrito);
+        // Configurar columnas detalle
+        colIdDetalle.setCellValueFactory(cell -> cell.getValue().id_detalleProperty().asObject());
+        colIdMaterial.setCellValueFactory(cell -> cell.getValue().id_materialProperty().asObject());
+        colCantidad.setCellValueFactory(cell -> cell.getValue().cantidadProperty().asObject());
+        colPrecioUnitario.setCellValueFactory(cell -> cell.getValue().precio_unitarioProperty().asObject());
+        colSubtotal.setCellValueFactory(cell -> cell.getValue().subtotalProperty().asObject());
+
+        cargarVentas();
+    }
+    
+    private void cargarVentas() {
+        ObservableList<ATRIBUTOSVenta> lista = metodos.listarVentas();
+        tablaVentas.setItems(lista);
+    }
+
+    private void cargarDetalle(int idVenta) {
+        ObservableList<ATRIBUTOSDetalleVenta> lista = metodos.listarDetalleVenta(idVenta);
+        tablaDetalle.setItems(lista);
+    }
+
+    // --- Métodos para cabecera de venta ---
+    @FXML
+    private void insertarVenta() {
+        // Aquí defines cómo crear una nueva venta
+        ATRIBUTOSVenta v = new ATRIBUTOSVenta();
+        // setea los atributos necesarios (fecha, cliente, empleado, total)
+        metodos.insertarVenta(v);
+        cargarVentas();
     }
 
     @FXML
-    private void agregarAlCarrito() {
-        try {
-            String nombre = txtProducto.getText();
-            int cantidad = Integer.parseInt(txtCantidad.getText());
-            double precio = Double.parseDouble(txtPrecio.getText());
-            double subtotal = cantidad * precio;
+    private void actualizarVenta() {
+        ventaSeleccionada = tablaVentas.getSelectionModel().getSelectedItem();
+        if (ventaSeleccionada != null) {
+            // Tomar los nuevos valores de los campos
+            ventaSeleccionada.setId_cliente(Integer.parseInt(txtCliente.getText()));
+            ventaSeleccionada.setId_empleado(Integer.parseInt(txtEmpleado.getText()));
+            ventaSeleccionada.setTotal(Double.parseDouble(txtTotal.getText()));
+            ventaSeleccionada.setFecha(java.sql.Date.valueOf(dpFecha.getValue()));
 
-            ItemVenta item = new ItemVenta(contadorId++, nombre, cantidad, precio, subtotal);
-            carrito.add(item);
-            actualizarTotal();
+            // Llamar al método de actualización
+            metodos.updateVenta(ventaSeleccionada);
 
-            txtProducto.clear();
-            txtCantidad.clear();
-            txtPrecio.clear();
-        } catch (NumberFormatException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error de entrada");
-            alert.setHeaderText("Datos inválidos");
-            alert.setContentText("Por favor ingresa números válidos en Cantidad y Precio.");
-            alert.showAndWait();
+            // Refrescar la tabla
+            cargarVentas();
+        }
+    }
+
+
+
+    @FXML
+    private void eliminarVenta() {
+        ventaSeleccionada = tablaVentas.getSelectionModel().getSelectedItem();
+        if (ventaSeleccionada != null) {
+            metodos.eliminarVenta(ventaSeleccionada.getId_venta());
+            cargarVentas();
+        }
+    }
+
+    // --- Métodos para detalle de venta ---
+    @FXML
+    private void insertarDetalle() {
+        ventaSeleccionada = tablaVentas.getSelectionModel().getSelectedItem();
+        if (ventaSeleccionada != null) {
+            ATRIBUTOSDetalleVenta d = new ATRIBUTOSDetalleVenta();
+            d.setId_venta(ventaSeleccionada.getId_venta());
+            d.setId_material(Integer.parseInt(txtIdMaterial.getText()));
+            d.setCantidad(Integer.parseInt(txtCantidad.getText()));
+            d.setPrecio_unitario(Float.parseFloat(txtPrecioUnitario.getText()));
+            d.setSubtotal(d.getCantidad() * d.getPrecio_unitario());
+
+            metodos.insertarDetalleVenta(d);
+            cargarDetalle(ventaSeleccionada.getId_venta());
         }
     }
 
     @FXML
-    private void finalizarVenta() {
-        if (carrito.isEmpty()) {
-            Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Venta vacía");
-            alert.setHeaderText(null);
-            alert.setContentText("No hay productos en el carrito.");
-            alert.showAndWait();
-            return;
-        }
-
-        // Aquí puedes generar el PDF con los datos del carrito
-        System.out.println("Venta finalizada. Generando comprobante...");
-        carrito.clear();
-        contadorId = 1;
-        actualizarTotal();
-    }
-
-    @FXML
-    private void cancelarVenta() {
-        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Cancelar venta");
-        confirm.setHeaderText("¿Seguro que deseas cancelar la venta?");
-        confirm.setContentText("Se perderán todos los productos del carrito.");
-
-        if (confirm.showAndWait().get() == ButtonType.OK) {
-            carrito.clear();
-            contadorId = 1;
-            actualizarTotal();
-        }
-    }
-
-    private void actualizarTotal() {
-        double total = carrito.stream().mapToDouble(ItemVenta::getSubtotal).sum();
-        labelTotal.setText(String.format("$%.2f", total));
-    }
-
-    @FXML
-    private void seleccionarVenta(MouseEvent event) {
-        ItemVenta seleccionado = tablaCarrito.getSelectionModel().getSelectedItem();
-        if (seleccionado != null) {
-            txtProducto.setText(seleccionado.getNombre());
-            txtCantidad.setText(String.valueOf(seleccionado.getCantidad()));
-            txtPrecio.setText(String.valueOf(seleccionado.getPrecio()));
+    private void eliminarDetalle() {
+        detalleSeleccionado = tablaDetalle.getSelectionModel().getSelectedItem();
+        if (detalleSeleccionado != null) {
+            metodos.eliminarDetalleVenta(detalleSeleccionado.getId_detalle());
+            cargarDetalle(detalleSeleccionado.getId_venta());
         }
     }
 }

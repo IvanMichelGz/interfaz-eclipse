@@ -8,13 +8,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="Driver/mssql-jdbc-12.2.0.jre11.jar"/>
-	<classpathentry kind="lib" path="Driver/io-8.0.2.jar"/>
-	<classpathentry kind="lib" path="Driver/kernel-8.0.2.jar"/>
-	<classpathentry kind="lib" path="Driver/layout-8.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/IvanM/Downloads/io-8.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/IvanM/Downloads/layout-8.0.2.jar"/>
 	<classpathentry kind="lib" path="C:/Users/IvanM/Downloads/kernel-8.0.2.jar"/>
-	<classpathentry kind="lib" path="Driver/layout-8.0.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/5"/>
 	<classpathentry kind="lib" path="C:/Users/IvanM/Downloads/openjfx-21.0.9_windows-x64_bin-sdk/javafx-sdk-21.0.9/lib/javafx.base.jar">
 		<attributes>

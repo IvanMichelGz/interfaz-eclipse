@@ -7,7 +7,9 @@
 <BorderPane xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="CRUD.EmpleadoController"
+            stylesheets="@estilo.css"
             prefWidth="900" prefHeight="600">
+            
 
     <top>
         <Label text="Gestión de Empleados" style="-fx-font-size: 20px; -fx-padding: 10;" />

@@ -40,37 +40,48 @@ public class EmpleadoController {
 
     @FXML
     private void guardarEmpleado() {
-        ATRIBUTOSEmpleado e = new ATRIBUTOSEmpleado();
-        e.setNombre(txtNombre.getText());
-        e.setPuesto(txtPuesto.getText());
-        e.setSalario(Float.parseFloat(txtSalario.getText()));
-        e.setFecha_ingreso(java.sql.Date.valueOf(dpFecha.getValue()));
+        if (validarCampos()) {
+            ATRIBUTOSEmpleado e = new ATRIBUTOSEmpleado();
+            e.setNombre(txtNombre.getText());
+            e.setPuesto(txtPuesto.getText());
+            e.setSalario(Float.parseFloat(txtSalario.getText()));
+            e.setFecha_ingreso(java.sql.Date.valueOf(dpFecha.getValue()));
 
-        metodos.insertarEmpleado(e);
-        cargarTabla();
-        limpiarCampos();
+            metodos.insertarEmpleado(e);
+            cargarTabla();
+            limpiarCampos();
+            mostrarInfo("Empleado agregado correctamente.");
+        }
     }
 
     @FXML
     private void actualizarEmpleado() {
-        if (seleccionado != null) {
+        if (seleccionado != null && validarCampos()) {
             seleccionado.setNombre(txtNombre.getText());
             seleccionado.setPuesto(txtPuesto.getText());
             seleccionado.setSalario(Float.parseFloat(txtSalario.getText()));
             seleccionado.setFecha_ingreso(java.sql.Date.valueOf(dpFecha.getValue()));
 
-            metodos.updateEmpleado(seleccionado);
-            cargarTabla();
-            limpiarCampos();
+            if (metodos.updateEmpleado(seleccionado)) {
+                cargarTabla();
+                limpiarCampos();
+                mostrarInfo("Empleado actualizado correctamente.");
+            } else {
+                mostrarAlerta("No se pudo actualizar el empleado.");
+            }
         }
     }
 
     @FXML
     private void eliminarEmpleado() {
         if (seleccionado != null) {
-            metodos.eliminarEmpleado(seleccionado.getId_empleado());
-            cargarTabla();
-            limpiarCampos();
+            if (metodos.eliminarEmpleado(seleccionado.getId_empleado())) {
+                cargarTabla();
+                limpiarCampos();
+                mostrarInfo("Empleado eliminado correctamente.");
+            } else {
+                mostrarAlerta("No se pudo eliminar el empleado.");
+            }
         }
     }
 
@@ -81,7 +92,9 @@ public class EmpleadoController {
             txtNombre.setText(seleccionado.getNombre());
             txtPuesto.setText(seleccionado.getPuesto());
             txtSalario.setText(String.valueOf(seleccionado.getSalario()));
-            dpFecha.setValue(seleccionado.getFecha_ingreso().toLocalDate());
+            if (seleccionado.getFecha_ingreso() != null) {
+                dpFecha.setValue(seleccionado.getFecha_ingreso().toLocalDate());
+            }
         }
     }
 
@@ -90,6 +103,44 @@ public class EmpleadoController {
         txtPuesto.clear();
         txtSalario.clear();
         dpFecha.setValue(null);
+        tablaEmpleados.getSelectionModel().clearSelection();
         seleccionado = null;
+    }
+
+    /** Validación básica de campos obligatorios */
+    private boolean validarCampos() {
+        if (txtNombre.getText().isEmpty() || txtPuesto.getText().isEmpty()) {
+            mostrarAlerta("Nombre y puesto son obligatorios.");
+            return false;
+        }
+        try {
+            Float.parseFloat(txtSalario.getText());
+        } catch (NumberFormatException e) {
+            mostrarAlerta("El salario debe ser numérico.");
+            return false;
+        }
+        if (dpFecha.getValue() == null) {
+            mostrarAlerta("La fecha de ingreso es obligatoria.");
+            return false;
+        }
+        return true;
+    }
+
+    /** Muestra una alerta de advertencia */
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Validación");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
+
+    /** Muestra un mensaje informativo */
+    private void mostrarInfo(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Información");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }
