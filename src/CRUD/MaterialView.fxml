@@ -8,55 +8,81 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="CRUD.MaterialController"
             stylesheets="@estilo.css"
-            prefWidth="900" prefHeight="600">
+            prefWidth="1000" prefHeight="600">
 
     <!-- Encabezado -->
     <top>
-        <Label text="Gestión de Materiales"
-               styleClass="header-title"
-               BorderPane.alignment="CENTER"/>
+        <Label text="Gestión de Materiales" style="-fx-font-size: 20px; -fx-padding: 10;" />
     </top>
 
     <!-- Contenido central -->
     <center>
-        <VBox spacing="15" style="-fx-padding: 20;">
+        <VBox spacing="15" style="-fx-padding: 10;">
 
             <!-- Tabla de materiales -->
-            <TableView fx:id="tablaMateriales" onMouseClicked="#seleccionarMaterial"
-                       prefHeight="400" prefWidth="800">
+            <Label text="Materiales registrados" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+            <TableView fx:id="tablaMateriales" prefHeight="300" onMouseClicked="#seleccionarMaterial">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" prefWidth="60"/>
-                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="140"/>
-                    <TableColumn fx:id="colMarca" text="Marca" prefWidth="120"/>
-                    <TableColumn fx:id="colArea" text="Área" prefWidth="120"/>
-                    <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="100"/>
-                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
+                    <TableColumn fx:id="colNombre" text="Nombre" prefWidth="120"/>
+                    <TableColumn fx:id="colMarca" text="Marca" prefWidth="100"/>
+                    <TableColumn fx:id="colArea" text="Área" prefWidth="100"/>
+                    <TableColumn fx:id="colUnidad" text="Unidad" prefWidth="80"/>
+                    <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="80"/>
                     <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100"/>
-                    <TableColumn fx:id="colFechaIngreso" text="Ingreso" prefWidth="120"/>
-                    <TableColumn fx:id="colFechaCaducidad" text="Caducidad" prefWidth="120"/>
+                    <TableColumn fx:id="colFechaIngreso" text="Fecha Ingreso" prefWidth="120"/>
+                    <TableColumn fx:id="colFechaCaducidad" text="Fecha Caducidad" prefWidth="120"/>
                     <TableColumn fx:id="colUbicacion" text="Ubicación" prefWidth="120"/>
                 </columns>
             </TableView>
 
-            <!-- Campos de entrada -->
-            <HBox spacing="12" alignment="CENTER">
-                <TextField fx:id="txtNombre" promptText="Nombre" prefWidth="140"/>
-                <TextField fx:id="txtMarca" promptText="Marca" prefWidth="120"/>
-                <TextField fx:id="txtArea" promptText="Área" prefWidth="120"/>
-                <TextField fx:id="txtUnidad" promptText="Unidad" prefWidth="100"/>
-                <TextField fx:id="txtCantidad" promptText="Cantidad" prefWidth="100"/>
-                <TextField fx:id="txtPrecio" promptText="Precio" prefWidth="100"/>
-                <TextField fx:id="txtUbicacion" promptText="Ubicación" prefWidth="120"/>
-                <DatePicker fx:id="dpFechaIngreso" promptText="Fecha ingreso"/>
-                <DatePicker fx:id="dpFechaCaducidad" promptText="Fecha caducidad"/>
+            <!-- Botones de acción distribuidos horizontalmente -->
+            <HBox spacing="20" alignment="CENTER" style="-fx-padding: 10;">
+                <Button text="Guardar Material" onAction="#guardarMaterial" prefWidth="150"/>
+                <Button text="Actualizar Material" onAction="#actualizarMaterial" prefWidth="150"/>
+                <Button text="Eliminar Material" onAction="#eliminarMaterial" prefWidth="150"/>
             </HBox>
 
-            <!-- Botones de acción -->
-            <HBox spacing="15" alignment="CENTER">
-                <Button text="Guardar" onAction="#guardarMaterial" prefWidth="120"/>
-                <Button text="Actualizar" onAction="#actualizarMaterial" prefWidth="120"/>
-                <Button text="Eliminar" onAction="#eliminarMaterial" prefWidth="120"/>
-            </HBox>
+            <!-- Formulario de captura horizontal -->
+            <Label text="Datos del material" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
+            <GridPane hgap="20" vgap="15" style="-fx-padding: 10;">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="15"/>
+                    <ColumnConstraints percentWidth="35"/>
+                    <ColumnConstraints percentWidth="15"/>
+                    <ColumnConstraints percentWidth="35"/>
+                </columnConstraints>
+
+                <children>
+                    <!-- Fila 1 -->
+                    <Label text="Nombre:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtNombre" promptText="Nombre Material" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+                    <Label text="Marca:" GridPane.rowIndex="0" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtMarca" promptText="Marca" GridPane.rowIndex="0" GridPane.columnIndex="3"/>
+
+                    <!-- Fila 2 -->
+                    <Label text="Área:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtArea" promptText="Área" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+                    <Label text="Unidad:" GridPane.rowIndex="1" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtUnidad" promptText="Unidad de medida" GridPane.rowIndex="1" GridPane.columnIndex="3"/>
+
+                    <!-- Fila 3 -->
+                    <Label text="Cantidad:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCantidad" promptText="Cantidad" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    <Label text="Precio:" GridPane.rowIndex="2" GridPane.columnIndex="2"/>
+                    <TextField fx:id="txtPrecio" promptText="Precio Unitario" GridPane.rowIndex="2" GridPane.columnIndex="3"/>
+
+                    <!-- Fila 4 -->
+                    <Label text="Fecha Ingreso:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <DatePicker fx:id="dpFechaIngreso" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+                    <Label text="Fecha Caducidad:" GridPane.rowIndex="3" GridPane.columnIndex="2"/>
+                    <DatePicker fx:id="dpFechaCaducidad" GridPane.rowIndex="3" GridPane.columnIndex="3"/>
+
+                    <!-- Fila 5 -->
+                    <Label text="Ubicación:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtUbicacion" promptText="Ubicación" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
         </VBox>
     </center>
 </BorderPane>

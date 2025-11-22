@@ -11,53 +11,72 @@
             stylesheets="@estilo.css"
             prefWidth="1000" prefHeight="600">
 
+    <!-- Encabezado -->
     <top>
-        <Label text="Gestión de Ventas" style="-fx-font-size: 20px; -fx-padding: 10;" />
+        <VBox spacing="10" style="-fx-padding: 10;">
+            <Label text="Gestión de Ventas" style="-fx-font-size: 20px;"/>
+            <HBox spacing="20">
+                <Label text="Cliente:"/>
+                <TextField fx:id="txtCliente" promptText="Nombre Cliente"/>
+                <Label text="Empleado:"/>
+                <TextField fx:id="txtEmpleado" promptText="Nombre Empleado"/>
+                <Label text="Fecha:"/>
+                <DatePicker fx:id="dpFecha"/>
+            </HBox>
+        </VBox>
     </top>
 
+    <!-- Contenido central -->
     <center>
         <VBox spacing="15" style="-fx-padding: 10;">
-            
-            <!-- Tabla cabecera de venta -->
-            <Label text="Ventas registradas" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-            <TableView fx:id="tablaVentas" prefHeight="150">
+            <!-- Tabla de ventas -->
+            <Label text="Ventas registradas" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <TableView fx:id="tablaVentas" prefHeight="300">
                 <columns>
                     <TableColumn fx:id="colIdVenta" text="ID Venta" prefWidth="80"/>
-                    <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120"/>
                     <TableColumn fx:id="colCliente" text="Cliente" prefWidth="120"/>
                     <TableColumn fx:id="colEmpleado" text="Empleado" prefWidth="120"/>
-                    <TableColumn fx:id="colTotal" text="Total" prefWidth="100"/>
-                </columns>
-            </TableView>
-
-            <!-- Botones para cabecera de venta -->
-            <HBox spacing="10">
-                <Button text="Guardar Venta" onAction="#insertarVenta"/>
-                <Button text="Actualizar Venta" onAction="#actualizarVenta"/>
-                <Button text="Eliminar Venta" onAction="#eliminarVenta"/>
-            </HBox>
-
-            <!-- Tabla detalle de venta -->
-            <Label text="Detalle de la venta seleccionada" style="-fx-font-size: 16px; -fx-font-weight: bold;" />
-            <TableView fx:id="tablaDetalle" prefHeight="200">
-                <columns>
-                    <TableColumn fx:id="colIdDetalle" text="ID Detalle" prefWidth="80"/>
-                    <TableColumn fx:id="colIdMaterial" text="ID Material" prefWidth="100"/>
+                    <TableColumn fx:id="colMaterial" text="Material" prefWidth="150"/>
+                    <TableColumn fx:id="colPrecio" text="Precio" prefWidth="100"/>
                     <TableColumn fx:id="colCantidad" text="Cantidad" prefWidth="100"/>
-                    <TableColumn fx:id="colPrecioUnitario" text="Precio Unitario" prefWidth="120"/>
+                    <TableColumn fx:id="colFecha" text="Fecha" prefWidth="120"/>
                     <TableColumn fx:id="colSubtotal" text="Subtotal" prefWidth="120"/>
+                    <TableColumn fx:id="colTotal" text="Total" prefWidth="120"/>
                 </columns>
             </TableView>
 
-            <!-- Formulario para agregar detalle -->
-            <HBox spacing="10">
-                <TextField fx:id="txtIdMaterial" promptText="ID Material"/>
-                <TextField fx:id="txtCantidad" promptText="Cantidad"/>
-                <TextField fx:id="txtPrecioUnitario" promptText="Precio Unitario"/>
-                <Button text="Agregar Detalle" onAction="#insertarDetalle"/>
-                <Button text="Eliminar Detalle" onAction="#eliminarDetalle"/>
-            </HBox>
+            <!-- Formulario de captura de material -->
+            <Label text="Agregar material" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+            <GridPane hgap="10" vgap="10">
+                <columnConstraints>
+                    <ColumnConstraints percentWidth="20"/>
+                    <ColumnConstraints percentWidth="30"/>
+                </columnConstraints>
 
+                <children>
+                    <Label text="Material:" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtMaterial" promptText="Nombre Material" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                    <Label text="Cantidad:" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtCantidad" promptText="Cantidad" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                    <Label text="Precio:" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtPrecio" promptText="Precio" editable="false" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+
+                    <Label text="Subtotal:" GridPane.rowIndex="3" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtSubtotal" promptText="Subtotal" editable="false" GridPane.rowIndex="3" GridPane.columnIndex="1"/>
+
+                    <Label text="Total:" GridPane.rowIndex="4" GridPane.columnIndex="0"/>
+                    <TextField fx:id="txtTotal" promptText="Total" editable="false" GridPane.rowIndex="4" GridPane.columnIndex="1"/>
+                </children>
+            </GridPane>
+
+            <!-- Botones de acción -->
+            <HBox spacing="10" alignment="CENTER" style="-fx-padding: 10;">
+                <Button text="Guardar Venta" onAction="#insertarVenta" prefWidth="150"/>
+                <Button text="Actualizar Venta" onAction="#actualizarVenta" prefWidth="150"/>
+                <Button text="Eliminar Venta" onAction="#eliminarVenta" prefWidth="150"/>
+            </HBox>
         </VBox>
     </center>
 </BorderPane>

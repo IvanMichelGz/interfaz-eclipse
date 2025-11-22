@@ -3,22 +3,23 @@ package CRUD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class METODOSClientes {
 
-    public Connection conexion() {
-        String servidor = "jdbc:sqlserver://IVANMICHEL07XD:1433;"
-                + "databaseName=EmpresaDB;"
-                + "encrypt=true;"
-                + "trustServerCertificate=true";
-        String usuario = "sa";
-        String clave = "Ivan123";
+    private final String servidor = "jdbc:sqlserver://IVANMICHEL07XD:1433;"
+            + "databaseName=EmpresaDB;"
+            + "encrypt=true;"
+            + "trustServerCertificate=true";
+    private final String usuario = "sa";
+    private final String clave = "Ivan123";
 
-        Connection conexion = null;
+    /** Conexión a la base de datos */
+    public Connection conexion() {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            conexion = DriverManager.getConnection(servidor, usuario, clave);
-            System.out.println("Conexión establecida correctamente");
+            return DriverManager.getConnection(servidor, usuario, clave);
         } catch (ClassNotFoundException e) {
             System.err.println("Driver no encontrado");
             e.printStackTrace();
@@ -26,19 +27,15 @@ public class METODOSClientes {
             System.err.println("Error al conectar con el servidor");
             e.printStackTrace();
         }
-        return conexion;
+        return null;
     }
 
+    /** Listar todos los clientes */
     public ObservableList<ATRIBUTOSClientes> listarClientes() {
         ObservableList<ATRIBUTOSClientes> lista = FXCollections.observableArrayList();
 
         String sql = """
-            SELECT 
-                id_cliente,
-                nombre,
-                apellido,
-                telefono,
-                email
+            SELECT id_cliente, nombre, apellido, telefono, email
             FROM empresadb.cliente
         """;
 
@@ -63,6 +60,7 @@ public class METODOSClientes {
         return lista;
     }
 
+    /** Insertar un nuevo cliente */
     public void insertarCliente(ATRIBUTOSClientes c) {
         String sql = "INSERT INTO empresadb.cliente (nombre, apellido, telefono, email) VALUES (?,?,?,?)";
 
@@ -80,6 +78,7 @@ public class METODOSClientes {
         }
     }
 
+    /** Actualizar un cliente existente */
     public boolean updateCliente(ATRIBUTOSClientes c) {
         String sql = "UPDATE empresadb.cliente SET nombre=?, apellido=?, telefono=?, email=? WHERE id_cliente=?";
 
@@ -100,6 +99,7 @@ public class METODOSClientes {
         }
     }
 
+    /** Eliminar un cliente por ID */
     public boolean eliminarCliente(int id) {
         String sql = "DELETE FROM empresadb.cliente WHERE id_cliente=?";
 
@@ -113,5 +113,44 @@ public class METODOSClientes {
             ex.printStackTrace();
             return false;
         }
+    }
+
+    // ============================
+    // Métodos extra para autocompletado
+    // ============================
+
+    /** Listar solo nombres de clientes (para autocompletado) */
+    public List<String> listarNombresClientes() {
+        List<String> lista = new ArrayList<>();
+        String sql = "SELECT nombre FROM empresadb.cliente";
+
+        try (Connection con = conexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(rs.getString("nombre"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return lista;
+    }
+
+    /** Buscar ID de cliente por nombre */
+    public int buscarIdClientePorNombre(String nombre) {
+        String sql = "SELECT id_cliente FROM empresadb.cliente WHERE nombre = ?";
+        try (Connection con = conexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombre);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_cliente");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0; // si no existe
     }
 }

@@ -10,6 +10,7 @@ public class MainApp extends Application {
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/CRUD/MainView.fxml"));
         Scene scene = new Scene(loader.load());
+        
         primaryStage.setScene(scene);
         primaryStage.setTitle("Sistema de Gestión Empresarial");
         primaryStage.show();

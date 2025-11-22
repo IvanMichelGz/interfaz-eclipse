@@ -24,7 +24,7 @@
         <VBox spacing="15" alignment="TOP_CENTER" prefWidth="200" style="-fx-padding:20;">
             <children>
                 <Button fx:id="btnMateriales" text="Materiales" onAction="#mostrarMateriales" prefWidth="180"/>
-                <Button fx:id="btnClientes" text="Clientes" onAction="#mostrarClientes" prefWidth="180"/>
+                <Button fx:id="btnClientes" text="Clientes" onAction="#mostrarClientes" prefWidth="180"/> <!-- ✅ corregido -->
                 <Button fx:id="btnEmpleados" text="Empleados" onAction="#mostrarEmpleados" prefWidth="180"/>
                 <Button fx:id="btnProveedores" text="Proveedores" onAction="#mostrarProveedores" prefWidth="180"/>
                 <Button fx:id="btnVentas" text="Ventas" onAction="#mostrarVentas" prefWidth="180"/>

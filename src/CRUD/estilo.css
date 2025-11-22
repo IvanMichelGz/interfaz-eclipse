@@ -6,22 +6,22 @@
   -fx-font-size: 13px;
 }
 
-/* Tema claro */
+/* Tema claro pastel */
 .light {
-  -fx-background-color: #f7f7f8;
+  -fx-background-color: #f3f0ff; /* lavanda suave */
   -fx-text-fill: #1a1a1a;
-  -fx-accent: #0066ff;
-  -fx-focus-color: #0066ff;
-  -fx-faint-focus-color: rgba(0,102,255,0.12);
+  -fx-accent: #cce4ff; /* azul cielo pastel */
+  -fx-focus-color: #cce4ff;
+  -fx-faint-focus-color: rgba(204,228,255,0.12);
 }
 
-/* Tema oscuro */
+/* Tema oscuro pastel */
 .dark {
   -fx-background-color: #101214;
   -fx-text-fill: #e8eaed;
-  -fx-accent: #4c8dff;
-  -fx-focus-color: #4c8dff;
-  -fx-faint-focus-color: rgba(76,141,255,0.16);
+  -fx-accent: #b2eac7; /* verde menta medio */
+  -fx-focus-color: #b2eac7;
+  -fx-faint-focus-color: rgba(178,234,199,0.16);
 }
 
 /* =========================
@@ -69,7 +69,7 @@
   -fx-cursor: hand;
 }
 .button:hover {
-  -fx-background-color: rgba(0,0,0,0.06);
+  -fx-background-color: #b2eac7; /* verde menta medio */
 }
 .button:focused {
   -fx-border-color: -fx-focus-color;
@@ -86,6 +86,33 @@
   -fx-background-color: rgba(255,255,255,0.08);
 }
 
+/* Botones del menú lateral */
+.side-menu .button {
+  -fx-background-color: #ffffff;
+  -fx-text-fill: #1a1a1a;
+  -fx-border-color: rgba(0,0,0,0.08);
+}
+.side-menu .button:hover {
+  -fx-background-color: #e6f2ff;
+}
+.side-menu .button:focused {
+  -fx-border-color: #cce4ff;
+}
+.side-menu .button:selected, .side-menu .button:armed {
+  -fx-background-color: #dbe9ff;
+}
+.dark .side-menu .button {
+  -fx-background-color: #1a1d21;
+  -fx-text-fill: #e8eaed;
+  -fx-border-color: rgba(255,255,255,0.08);
+}
+.dark .side-menu .button:hover {
+  -fx-background-color: rgba(255,255,255,0.08);
+}
+.dark .side-menu .button:selected, .dark .side-menu .button:armed {
+  -fx-background-color: rgba(178,234,199,0.22);
+}
+
 /* =========================
    Campos de texto y DatePicker
    ========================= */
@@ -93,13 +120,13 @@
   -fx-background-color: transparent;
   -fx-text-fill: inherit;
   -fx-padding: 8 10 8 10;
-  -fx-border-color: rgba(0,0,0,0.14);
+  -fx-border-color: #cce4ff; /* azul cielo pastel */
   -fx-border-width: 1px;
   -fx-border-radius: 8px;
   -fx-background-radius: 8px;
 }
 .text-field:focused, .password-field:focused, .text-area:focused, .date-picker:focused {
-  -fx-border-color: -fx-focus-color;
+  -fx-border-color: #99ccff;
 }
 .dark .text-field, .dark .password-field, .dark .text-area, .dark .date-picker {
   -fx-border-color: rgba(255,255,255,0.18);
@@ -115,13 +142,29 @@
 .date-picker .arrow-button .arrow {
   -fx-background-color: -fx-text-fill;
 }
+.date-picker .text-field {
+  -fx-background-color: transparent;
+}
+.date-picker-popup {
+  -fx-background-color: #ffffff;
+  -fx-background-radius: 8px;
+  -fx-border-color: #cce4ff;
+  -fx-border-radius: 8px;
+}
+.dark .date-picker-popup {
+  -fx-background-color: #1a1d21;
+  -fx-border-color: #b2eac7;
+}
+.calendar-grid {
+  -fx-background-color: transparent;
+}
 
 /* =========================
    TableView (color y contornos)
    ========================= */
 .table-view {
   -fx-background-color: #ffffff;
-  -fx-border-color: #0066ff;
+  -fx-border-color: #cce4ff;
   -fx-border-width: 1.5px;
   -fx-border-radius: 10px;
   -fx-background-radius: 10px;
@@ -132,7 +175,7 @@
 
 /* Encabezado */
 .table-view .column-header-background {
-  -fx-background-color: #0066ff;
+  -fx-background-color: #cce4ff;
   -fx-background-radius: 10px 10px 0 0;
   -fx-padding: 0 0 8 0;
 }
@@ -141,10 +184,10 @@
   -fx-border-color: transparent;
 }
 .table-view .column-header .label {
-  -fx-text-fill: white;
+  -fx-text-fill: #1a1a1a;
   -fx-font-weight: 600;
   -fx-padding: 6 8 6 8;
-  -fx-alignment: CENTER; /* encabezados centrados */
+  -fx-alignment: CENTER;
 }
 
 /* Celdas y filas */
@@ -153,21 +196,21 @@
   -fx-text-fill: inherit;
   -fx-padding: 6 8 6 8;
   -fx-border-color: #d0d7e5;
-  -fx-border-width: 0 0 1 0; /* línea inferior tenue */
-  -fx-alignment: CENTER; /* registros centrados */
+  -fx-border-width: 0 0 1 0;
+  -fx-alignment: CENTER;
 }
 
 .table-row-cell:odd {
-  -fx-background-color: #f2f6ff; /* zebra azul tenue */
+  -fx-background-color: #f7faff;
 }
 .table-row-cell:even {
   -fx-background-color: #ffffff;
 }
 .table-row-cell:hover {
-  -fx-background-color: #e0ebff; /* hover suave */
+  -fx-background-color: #e6f2ff;
 }
 .table-row-cell:selected {
-  -fx-background-color: #cce0ff; /* selección visible */
+  -fx-background-color: #dbe9ff;
 }
 .table-row-cell:selected .cell {
   -fx-text-fill: #000000;
@@ -183,10 +226,10 @@
 /* Tema oscuro para tablas */
 .dark .table-view {
   -fx-background-color: #1a1d21;
-  -fx-border-color: #4c8dff;
+  -fx-border-color: #b2eac7;
 }
 .dark .table-view .column-header-background {
-  -fx-background-color: #2a5dff;
+  -fx-background-color: #b2eac7;
 }
 .dark .table-view .column-header .label {
   -fx-text-fill: #f5f7fa;
@@ -206,7 +249,7 @@
   -fx-background-color: rgba(255,255,255,0.08);
 }
 .dark .table-row-cell:selected {
-  -fx-background-color: rgba(76,141,255,0.22);
+  -fx-background-color: rgba(178,234,199,0.22);
 }
 .dark .table-view .placeholder .label {
   -fx-text-fill: #aeb8c5;
@@ -269,14 +312,78 @@
 }
 
 /* =========================
-   Tabs (si los usas)
+   Tabs
    ========================= */
 .tab-pane {
   -fx-background-color: transparent;
 }
+
+.tab-header-area {
+  -fx-background-color: transparent;
+}
+
 .tab {
   -fx-background-color: transparent;
   -fx-border-color: transparent transparent #e5e7eb transparent;
   -fx-border-width: 0 0 1 0;
   -fx-padding: 8 12;
 }
+
+.tab:selected {
+  -fx-border-color: transparent transparent #cce4ff transparent;
+  -fx-border-width: 0 0 2px 0;
+  -fx-background-color: transparent;
+}
+
+.tab .tab-label {
+  -fx-text-fill: #1a1a1a;
+  -fx-font-weight: 500;
+}
+
+.dark .tab {
+  -fx-border-color: transparent transparent rgba(255,255,255,0.12) transparent;
+}
+
+.dark .tab:selected {
+  -fx-border-color: transparent transparent #b2eac7 transparent;
+}
+
+.dark .tab .tab-label {
+  -fx-text-fill: #e8eaed;
+}
+
+/* =========================
+   Navegación lateral (VBox)
+   ========================= */
+.side-menu {
+  -fx-background-color: transparent;
+  -fx-spacing: 15;
+  -fx-padding: 20;
+}
+
+.light .side-menu {
+  -fx-background-color: transparent;
+}
+
+.dark .side-menu {
+  -fx-background-color: transparent;
+}
+
+/* =========================
+   Contenido central (StackPane)
+   ========================= */
+.content-pane {
+  -fx-background-color: transparent;
+  -fx-padding: 10;
+}
+
+/* =========================
+   Estados y transiciones suaves
+   ========================= */
+.button, .text-field, .date-picker, .table-view, .tab {
+  -fx-background-insets: 0;
+  -fx-effect: null;
+  -fx-transition: all 120ms ease-in-out; /* no estándar, decorativo; si no aplica, ignora */
+}
+
+/* Si tu runtime no soporta transiciones en CSS, este bloque no afecta */

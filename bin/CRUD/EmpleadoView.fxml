@@ -9,31 +9,38 @@
             fx:controller="CRUD.EmpleadoController"
             stylesheets="@estilo.css"
             prefWidth="900" prefHeight="600">
-            
 
+    <!-- Encabezado -->
     <top>
         <Label text="Gestión de Empleados" style="-fx-font-size: 20px; -fx-padding: 10;" />
     </top>
 
+    <!-- Contenido central -->
     <center>
         <VBox spacing="10" style="-fx-padding: 10;">
+            
+            <!-- Tabla de empleados -->
             <TableView fx:id="tablaEmpleados" onMouseClicked="#seleccionarEmpleado">
                 <columns>
                     <TableColumn fx:id="colId" text="ID" prefWidth="50"/>
                     <TableColumn fx:id="colNombre" text="Nombre" prefWidth="150"/>
+                    <TableColumn fx:id="colApellido" text="Apellido" prefWidth="150"/> <!-- ✅ nueva columna -->
                     <TableColumn fx:id="colPuesto" text="Puesto" prefWidth="150"/>
                     <TableColumn fx:id="colSalario" text="Salario" prefWidth="100"/>
                     <TableColumn fx:id="colFecha" text="Fecha Ingreso" prefWidth="150"/>
                 </columns>
             </TableView>
 
+            <!-- Campos de entrada -->
             <HBox spacing="10">
                 <TextField fx:id="txtNombre" promptText="Nombre"/>
+                <TextField fx:id="txtApellido" promptText="Apellido"/> <!-- ✅ nuevo campo -->
                 <TextField fx:id="txtPuesto" promptText="Puesto"/>
                 <TextField fx:id="txtSalario" promptText="Salario"/>
                 <DatePicker fx:id="dpFecha"/>
             </HBox>
 
+            <!-- Botones de acción -->
             <HBox spacing="10">
                 <Button text="Guardar" onAction="#guardarEmpleado"/>
                 <Button text="Actualizar" onAction="#actualizarEmpleado"/>

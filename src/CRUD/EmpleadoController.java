@@ -10,11 +10,13 @@ public class EmpleadoController {
     @FXML private TableView<ATRIBUTOSEmpleado> tablaEmpleados;
     @FXML private TableColumn<ATRIBUTOSEmpleado, Integer> colId;
     @FXML private TableColumn<ATRIBUTOSEmpleado, String> colNombre;
+    @FXML private TableColumn<ATRIBUTOSEmpleado, String> colApellido; // ✅ nuevo
     @FXML private TableColumn<ATRIBUTOSEmpleado, String> colPuesto;
     @FXML private TableColumn<ATRIBUTOSEmpleado, Float> colSalario;
     @FXML private TableColumn<ATRIBUTOSEmpleado, java.sql.Date> colFecha;
 
     @FXML private TextField txtNombre;
+    @FXML private TextField txtApellido; // ✅ nuevo
     @FXML private TextField txtPuesto;
     @FXML private TextField txtSalario;
     @FXML private DatePicker dpFecha;
@@ -26,6 +28,7 @@ public class EmpleadoController {
     public void initialize() {
         colId.setCellValueFactory(cell -> cell.getValue().id_empleadoProperty().asObject());
         colNombre.setCellValueFactory(cell -> cell.getValue().nombreProperty());
+        colApellido.setCellValueFactory(cell -> cell.getValue().apellidoProperty()); // ✅ nuevo
         colPuesto.setCellValueFactory(cell -> cell.getValue().puestoProperty());
         colSalario.setCellValueFactory(cell -> cell.getValue().salarioProperty().asObject());
         colFecha.setCellValueFactory(cell -> cell.getValue().fecha_ingresoProperty());
@@ -43,6 +46,7 @@ public class EmpleadoController {
         if (validarCampos()) {
             ATRIBUTOSEmpleado e = new ATRIBUTOSEmpleado();
             e.setNombre(txtNombre.getText());
+            e.setApellido(txtApellido.getText()); // ✅ nuevo
             e.setPuesto(txtPuesto.getText());
             e.setSalario(Float.parseFloat(txtSalario.getText()));
             e.setFecha_ingreso(java.sql.Date.valueOf(dpFecha.getValue()));
@@ -58,6 +62,7 @@ public class EmpleadoController {
     private void actualizarEmpleado() {
         if (seleccionado != null && validarCampos()) {
             seleccionado.setNombre(txtNombre.getText());
+            seleccionado.setApellido(txtApellido.getText()); // ✅ nuevo
             seleccionado.setPuesto(txtPuesto.getText());
             seleccionado.setSalario(Float.parseFloat(txtSalario.getText()));
             seleccionado.setFecha_ingreso(java.sql.Date.valueOf(dpFecha.getValue()));
@@ -90,6 +95,7 @@ public class EmpleadoController {
         seleccionado = tablaEmpleados.getSelectionModel().getSelectedItem();
         if (seleccionado != null) {
             txtNombre.setText(seleccionado.getNombre());
+            txtApellido.setText(seleccionado.getApellido()); // ✅ nuevo
             txtPuesto.setText(seleccionado.getPuesto());
             txtSalario.setText(String.valueOf(seleccionado.getSalario()));
             if (seleccionado.getFecha_ingreso() != null) {
@@ -100,6 +106,7 @@ public class EmpleadoController {
 
     private void limpiarCampos() {
         txtNombre.clear();
+        txtApellido.clear(); // ✅ nuevo
         txtPuesto.clear();
         txtSalario.clear();
         dpFecha.setValue(null);
@@ -109,8 +116,8 @@ public class EmpleadoController {
 
     /** Validación básica de campos obligatorios */
     private boolean validarCampos() {
-        if (txtNombre.getText().isEmpty() || txtPuesto.getText().isEmpty()) {
-            mostrarAlerta("Nombre y puesto son obligatorios.");
+        if (txtNombre.getText().isEmpty() || txtApellido.getText().isEmpty() || txtPuesto.getText().isEmpty()) {
+            mostrarAlerta("Nombre, apellido y puesto son obligatorios.");
             return false;
         }
         try {

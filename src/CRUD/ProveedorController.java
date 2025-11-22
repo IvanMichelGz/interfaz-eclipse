@@ -18,8 +18,9 @@ public class ProveedorController {
     @FXML private TextField txtTelefono;
     @FXML private TextField txtEmail;
 
-    private METODOSProveedor metodos = new METODOSProveedor();
+    private final METODOSProveedor metodos = new METODOSProveedor();
     private ObservableList<ATRIBUTOSProveedor> lista;
+    private ATRIBUTOSProveedor seleccionado;
 
     @FXML
     private void initialize() {
@@ -29,45 +30,55 @@ public class ProveedorController {
         colTelefono.setCellValueFactory(data -> data.getValue().telefonoProperty());
         colEmail.setCellValueFactory(data -> data.getValue().emailProperty());
 
-        lista = metodos.listarProveedores();
-        tablaProveedores.setItems(lista);
+        recargarTabla();
     }
 
     @FXML
     private void agregarProveedor() {
-        ATRIBUTOSProveedor p = new ATRIBUTOSProveedor();
-        p.setNombre(txtNombre.getText());
-        p.setDireccion(txtDireccion.getText());
-        p.setTelefono(txtTelefono.getText());
-        p.setEmail(txtEmail.getText());
+        if (validarCampos()) {
+            ATRIBUTOSProveedor p = new ATRIBUTOSProveedor();
+            p.setNombre(txtNombre.getText());
+            p.setDireccion(txtDireccion.getText());
+            p.setTelefono(txtTelefono.getText());
+            p.setEmail(txtEmail.getText());
 
-        metodos.insertarProveedor(p);
-        recargarTabla();
-        limpiarCampos();
+            metodos.insertarProveedor(p);
+            recargarTabla();
+            limpiarCampos();
+            mostrarInfo("Proveedor agregado correctamente.");
+        }
     }
 
     @FXML
     private void actualizarProveedor() {
-        ATRIBUTOSProveedor seleccionado = tablaProveedores.getSelectionModel().getSelectedItem();
-        if (seleccionado != null) {
+        seleccionado = tablaProveedores.getSelectionModel().getSelectedItem();
+        if (seleccionado != null && validarCampos()) {
             seleccionado.setNombre(txtNombre.getText());
             seleccionado.setDireccion(txtDireccion.getText());
             seleccionado.setTelefono(txtTelefono.getText());
             seleccionado.setEmail(txtEmail.getText());
 
-            metodos.updateProveedor(seleccionado);
-            recargarTabla();
-            limpiarCampos();
+            if (metodos.updateProveedor(seleccionado)) {
+                recargarTabla();
+                limpiarCampos();
+                mostrarInfo("Proveedor actualizado correctamente.");
+            } else {
+                mostrarAlerta("No se pudo actualizar el proveedor.");
+            }
         }
     }
 
     @FXML
     private void eliminarProveedor() {
-        ATRIBUTOSProveedor seleccionado = tablaProveedores.getSelectionModel().getSelectedItem();
+        seleccionado = tablaProveedores.getSelectionModel().getSelectedItem();
         if (seleccionado != null) {
-            metodos.eliminarProveedor(seleccionado.getId_proveedor());
-            recargarTabla();
-            limpiarCampos();
+            if (metodos.eliminarProveedor(seleccionado.getId_proveedor())) {
+                recargarTabla();
+                limpiarCampos();
+                mostrarInfo("Proveedor eliminado correctamente.");
+            } else {
+                mostrarAlerta("No se pudo eliminar el proveedor.");
+            }
         }
     }
 
@@ -81,5 +92,42 @@ public class ProveedorController {
         txtDireccion.clear();
         txtTelefono.clear();
         txtEmail.clear();
+        tablaProveedores.getSelectionModel().clearSelection();
+        seleccionado = null;
+    }
+
+    /** Validación básica de campos obligatorios */
+    private boolean validarCampos() {
+        if (txtNombre.getText().isEmpty() || txtDireccion.getText().isEmpty()) {
+            mostrarAlerta("Nombre y dirección son obligatorios.");
+            return false;
+        }
+        if (txtTelefono.getText().isEmpty()) {
+            mostrarAlerta("El teléfono es obligatorio.");
+            return false;
+        }
+        if (txtEmail.getText().isEmpty()) {
+            mostrarAlerta("El correo electrónico es obligatorio.");
+            return false;
+        }
+        return true;
+    }
+
+    /** Muestra una alerta de advertencia */
+    private void mostrarAlerta(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.WARNING);
+        alerta.setTitle("Validación");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
+    }
+
+    /** Muestra un mensaje informativo */
+    private void mostrarInfo(String mensaje) {
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Información");
+        alerta.setHeaderText(null);
+        alerta.setContentText(mensaje);
+        alerta.showAndWait();
     }
 }

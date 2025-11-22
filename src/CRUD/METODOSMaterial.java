@@ -3,6 +3,8 @@ package CRUD;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class METODOSMaterial {
 
@@ -41,7 +43,7 @@ public class METODOSMaterial {
                 m.setArea(rs.getString("area"));
                 m.setUnidad(rs.getString("unidad_media"));
                 m.setCantidad(rs.getInt("cantidad"));
-                m.setPrecio(rs.getDouble("precio_unitario")); // ✅ double
+                m.setPrecio(rs.getDouble("precio_unitario"));
                 m.setFecha_ingreso(rs.getDate("fecha_ingreso"));
                 m.setFecha_caducidad(rs.getDate("fecha_caducidad"));
                 m.setUbicacion(rs.getString("ubicacion"));
@@ -67,7 +69,7 @@ public class METODOSMaterial {
             ps.setString(3, m.getArea());
             ps.setString(4, m.getUnidad());
             ps.setInt(5, m.getCantidad());
-            ps.setDouble(6, m.getPrecio()); // ✅ double
+            ps.setDouble(6, m.getPrecio());
             ps.setDate(7, m.getFecha_ingreso());
             ps.setDate(8, m.getFecha_caducidad());
             ps.setString(9, m.getUbicacion());
@@ -90,7 +92,7 @@ public class METODOSMaterial {
             ps.setString(3, m.getArea());
             ps.setString(4, m.getUnidad());
             ps.setInt(5, m.getCantidad());
-            ps.setDouble(6, m.getPrecio()); // ✅ double
+            ps.setDouble(6, m.getPrecio());
             ps.setDate(7, m.getFecha_ingreso());
             ps.setDate(8, m.getFecha_caducidad());
             ps.setString(9, m.getUbicacion());
@@ -118,5 +120,60 @@ public class METODOSMaterial {
             System.err.println("Error en eliminarMaterial: " + e.getMessage());
             return false;
         }
+    }
+
+    /** Buscar precio por nombre de material */
+    public double buscarPrecioPorNombre(String nombreMaterial) {
+        String sql = "SELECT precio_unitario FROM empresadb.material WHERE nombre = ?";
+        try (Connection con = conexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombreMaterial);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getDouble("precio_unitario");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error en buscarPrecioPorNombre: " + e.getMessage());
+        }
+        return 0.0;
+    }
+
+    /** Buscar ID por nombre de material */
+    public int buscarIdPorNombre(String nombreMaterial) {
+        String sql = "SELECT id_material FROM empresadb.material WHERE nombre = ?";
+        try (Connection con = conexion();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nombreMaterial);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                return rs.getInt("id_material");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error en buscarIdPorNombre: " + e.getMessage());
+        }
+        return 0;
+    }
+
+    // ============================
+    // Métodos extra para autocompletado
+    // ============================
+
+    /** Listar solo nombres de materiales (para autocompletado) */
+    public List<String> listarNombresMateriales() {
+        List<String> lista = new ArrayList<>();
+        String sql = "SELECT nombre FROM empresadb.material";
+
+        try (Connection con = conexion();
+             PreparedStatement ps = con.prepareStatement(sql);
+             ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                lista.add(rs.getString("nombre"));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Error en listarNombresMateriales: " + e.getMessage());
+        }
+        return lista;
     }
 }
